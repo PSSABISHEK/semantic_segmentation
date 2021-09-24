@@ -1,0 +1,95 @@
+albumentations==1.0.3
+argon2-cffi @ file:///D:/bld/argon2-cffi_1605217273648/work
+async-generator==1.10
+attrs @ file:///home/conda/feedstock_root/build_artifacts/attrs_1605083924122/work
+backcall @ file:///home/ktietz/src/ci/backcall_1611930011877/work
+bitarray==2.0.1
+bleach @ file:///home/conda/feedstock_root/build_artifacts/bleach_1612213472466/work
+certifi==2020.12.5
+cffi @ file:///D:/bld/cffi_1613414140225/work
+chardet==4.0.0
+click==7.1.2
+colorama @ file:///tmp/build/80754af9/colorama_1607707115595/work
+cycler==0.10.0
+decorator @ file:///home/ktietz/src/ci/decorator_1611930055503/work
+defusedxml @ file:///home/conda/feedstock_root/build_artifacts/defusedxml_1615232257335/work
+entrypoints @ file:///home/conda/feedstock_root/build_artifacts/entrypoints_1605121927639/work/dist/entrypoints-0.3-py2.py3-none-any.whl
+filelock==3.0.12
+idna==2.10
+imageio==2.9.0
+importlib-metadata @ file:///D:/bld/importlib-metadata_1619012356363/work
+ipykernel @ file:///C:/ci/ipykernel_1596190155316/work/dist/ipykernel-5.3.4-py3-none-any.whl
+ipython @ file:///C:/ci/ipython_1614616640087/work
+ipython-genutils @ file:///tmp/build/80754af9/ipython_genutils_1606773439826/work
+ipywidgets @ file:///home/conda/feedstock_root/build_artifacts/ipywidgets_1609995587151/work
+jedi==0.17.0
+Jinja2 @ file:///home/conda/feedstock_root/build_artifacts/jinja2_1612119311452/work
+joblib==1.0.1
+jsonschema @ file:///home/conda/feedstock_root/build_artifacts/jsonschema_1614815863336/work
+jupyter-client @ file:///tmp/build/80754af9/jupyter_client_1601311786391/work
+jupyter-core @ file:///C:/ci/jupyter_core_1612213356021/work
+jupyterlab-pygments @ file:///home/conda/feedstock_root/build_artifacts/jupyterlab_pygments_1601375948261/work
+jupyterlab-widgets @ file:///home/conda/feedstock_root/build_artifacts/jupyterlab_widgets_1609173350931/work
+kiwisolver==1.3.1
+MarkupSafe @ file:///D:/bld/markupsafe_1610127683324/work
+matplotlib==3.3.4
+mistune @ file:///D:/bld/mistune_1610113104461/work
+mkl-fft==1.3.0
+mkl-random==1.1.1
+mkl-service==2.3.0
+nbclient @ file:///home/conda/feedstock_root/build_artifacts/nbclient_1614336084111/work
+nbconvert @ file:///D:/bld/nbconvert_1605402041690/work
+nbformat @ file:///home/conda/feedstock_root/build_artifacts/nbformat_1617383142101/work
+nest-asyncio @ file:///home/conda/feedstock_root/build_artifacts/nest-asyncio_1617163391303/work
+networkx==2.6.3
+notebook @ file:///home/conda/feedstock_root/build_artifacts/notebook_1618415081862/work
+numpy @ file:///C:/ci/numpy_and_numpy_base_1603466732592/work
+olefile==0.46
+opencv-python==4.5.3.56
+opencv-python-headless==4.5.3.56
+packaging @ file:///home/conda/feedstock_root/build_artifacts/packaging_1612459636436/work
+pandocfilters==1.4.2
+parso @ file:///tmp/build/80754af9/parso_1607623074025/work
+pdfreader==0.1.10
+pickleshare @ file:///tmp/build/80754af9/pickleshare_1606932040724/work
+Pillow @ file:///C:/ci/pillow_1615224342392/work
+prometheus-client @ file:///home/conda/feedstock_root/build_artifacts/prometheus_client_1617909193315/work
+prompt-toolkit @ file:///tmp/build/80754af9/prompt-toolkit_1602688806899/work
+pycparser @ file:///home/conda/feedstock_root/build_artifacts/pycparser_1593275161868/work
+pycryptodome==3.10.1
+Pygments @ file:///tmp/build/80754af9/pygments_1615143339740/work
+pyparsing==2.4.7
+pyrsistent @ file:///D:/bld/pyrsistent_1610147004705/work
+python-dateutil @ file:///home/ktietz/src/ci/python-dateutil_1611928101742/work
+PyWavelets==1.1.1
+pywin32==227
+pywinpty==0.5.7
+PyYAML==5.4.1
+pyzmq==20.0.0
+regex==2021.4.4
+requests==2.25.1
+sacremoses==0.0.45
+scikit-image==0.18.3
+scikit-learn==0.24.2
+scipy==1.6.3
+Send2Trash==1.5.0
+six @ file:///C:/ci/six_1605187374963/work
+sklearn==0.0
+terminado @ file:///D:/bld/terminado_1617048799047/work
+testpath==0.4.4
+threadpoolctl==2.1.0
+tifffile==2021.8.30
+tokenizers==0.10.2
+torch==1.8.0
+torchvision==0.9.0
+tornado @ file:///C:/ci/tornado_1606942392901/work
+tqdm==4.60.0
+traitlets @ file:///home/ktietz/src/ci/traitlets_1611929699868/work
+transformers==4.5.1
+typing-extensions @ file:///home/ktietz/src/ci_mi/typing_extensions_1612808209620/work
+urllib3==1.26.4
+wcwidth @ file:///tmp/build/80754af9/wcwidth_1593447189090/work
+webencodings==0.5.1
+widgetsnbextension @ file:///D:/bld/widgetsnbextension_1605475695976/work
+wincertstore==0.2
+zipp @ file:///home/conda/feedstock_root/build_artifacts/zipp_1614945704755/work
