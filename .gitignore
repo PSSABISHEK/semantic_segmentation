@@ -2,4 +2,6 @@ dataset
 models
 my_checkpoint.pth.tar
 saved_images
+local_req.txt
+venv
 

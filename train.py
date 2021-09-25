@@ -4,7 +4,11 @@ from albumentations.pytorch import ToTensorV2
 from tqdm import tqdm
 import torch.nn as nn
 import torch.optim as optim
-from models.unet.unet_model import UNet
+# from models.model_a.unet.unet_model import UNet
+# from models.model_b.models.fusenet_model import FuseNet
+# from models.model_c.models.fcn32s import FCN32VGG
+from models.model_d.train.erfnet_imagenet import ERFNet
+
 from utils import (
     load_checkpoint,
     save_checkpoint,
@@ -16,13 +20,13 @@ from utils import (
 # Hyperparameters etc.
 LEARNING_RATE = 1e-4
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-BATCH_SIZE = 16
-NUM_EPOCHS = 3
-NUM_WORKERS = 3
+BATCH_SIZE = 32
+NUM_EPOCHS = 5
+NUM_WORKERS = 2
 IMAGE_HEIGHT = 160
 IMAGE_WIDTH = 240
 PIN_MEMORY = True
-LOAD_MODEL = False
+LOAD_MODEL = True
 TRAIN_IMG_DIR = "dataset/training/images"
 TRAIN_MASK_DIR = "dataset/training/labels"
 VAL_IMG_DIR = "dataset/validation/images"
@@ -79,7 +83,12 @@ def main():
         ],
     )
 
-    model = UNet(n_channels=3, n_classes=66).to(DEVICE)
+    # CHANGE LINE BELOW FOR NEW MODELS
+    # model = UNet(n_channels=3, n_classes=66).to(DEVICE)
+    # model = FuseNet(num_labels=66, use_class=False)
+    # model = FCN32VGG(num_classes=66)
+    model = ERFNet(num_classes=66)
+    
     # loss_fn = nn.BCEWithLogitsLoss()
     loss_fn = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)

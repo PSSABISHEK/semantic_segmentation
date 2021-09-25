@@ -18,7 +18,7 @@ class MapillaryDataset(Dataset):
         self.images = os.listdir(img_dir)
 
     def __len__(self):
-        return 32
+        return 50
 
     def __getitem__(self, index):
         img_path = os.path.join(self.img_dir, self.images[index])
