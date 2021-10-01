@@ -2,7 +2,6 @@ import torch
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
 from tqdm import tqdm
-from models.model_a.unet.unet_model import UNet
 from test_customDataset import TestMapillaryDataset
 from torch.utils.data import DataLoader
 from utils import (
@@ -11,19 +10,23 @@ from utils import (
     save_test_preds_as_imgs
 )
 
+# MODELS
+from models.model_a.unet.unet_model import UNet
+# from torchvision.models.segmentation import fcn_resnet50
+
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 BATCH_SIZE = 16
 NUM_WORKERS = 1
 IMAGE_HEIGHT = 160
 IMAGE_WIDTH = 240
 PIN_MEMORY = True
-LOAD_MODEL = True
+LOAD_MODEL = False
 TEST_IMG_DIR = "dataset/testing/images"
-TEST_MASK_DIR = "dataset/testing/labels"
 
 def main():
 
     model = UNet(n_channels=3, n_classes=66).to(DEVICE)
+    # model = fcn_resnet50(pretrained=True, num_classes=66)
 
     test_transforms = A.Compose(
             [
@@ -54,7 +57,7 @@ def main():
 
         return test_loader
 
-    # test_loader = get_test_loader(TEST_IMG_DIR, test_transforms, BATCH_SIZE, NUM_WORKERS, PIN_MEMORY)
+    test_loader = get_test_loader(TEST_IMG_DIR, test_transforms, BATCH_SIZE, NUM_WORKERS, PIN_MEMORY)
 
     # save_plots()
 

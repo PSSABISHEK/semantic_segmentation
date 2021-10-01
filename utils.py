@@ -1,3 +1,4 @@
+from collections import deque
 import os
 import torch
 import torchvision
@@ -81,6 +82,8 @@ def check_metircs(loader, model, loss_fn, curr_epoch, device="cuda", train=True)
             y = y.long().to(device)
             # DONT USE NN.SOFTMAX - RETURNS AN OBJ
             preds = model(x)
+            # COMMENT LINE BELOW WHEN TRAINING ON UNET
+            preds = preds['out']
             loss = loss_fn(preds, y)
             preds = torch.nn.functional.softmax(preds, dim=1)
             preds = torch.argmax(preds, dim=1)
@@ -104,19 +107,18 @@ def save_predictions_as_imgs(
     for idx, (x, y) in enumerate(loader):
         x = x.to(device=device)
         with torch.no_grad():
-            predictions = model(x) 
+            predictions = model(x)
+            # COMMENT LINE BELOW WHEN TRAINING ON UNET
+            predictions = predictions['out']
             predictions = torch.nn.functional.softmax(predictions, dim=1)
             pred_labels = torch.argmax(predictions, dim=1)
             # for i in range(pred_labels.size(0)):
             save_img = torch.from_numpy(color_map(pred_labels[0]))
-            print(save_img.shape)
             save_img = save_img.permute(2, 0, 1)
             save_img = torchvision.transforms.Resize((1024, 2048))(save_img)
             torchvision.utils.save_image(
                 save_img, f"{folder}pred_{idx}_{0}.png", normalize=True
             )
-        
-        # torchvision.utils.save_image(y.unsqueeze(3), f"{folder}/{idx}.png")
 
     model.train()
 
@@ -127,7 +129,9 @@ def save_test_preds_as_imgs(
     for idx, x in enumerate(loader):
         x = x.to(device=device)
         with torch.no_grad():
-            predictions = model(x) 
+            predictions = model(x)
+            # COMMENT LINE BELOW WHEN TRAINING ON UNET
+            predictions = predictions['out']
             predictions = torch.nn.functional.softmax(predictions, dim=1)
             pred_labels = torch.argmax(predictions, dim=1)
             for i in range(pred_labels.size(0)):

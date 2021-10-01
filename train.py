@@ -5,8 +5,9 @@ from tqdm import tqdm
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.tensorboard import SummaryWriter
+from torchvision.models.segmentation import fcn_resnet50, deeplabv3_resnet101, lraspp_mobilenet_v3_large
 
-from models.model_a.unet.unet_model import UNet
+# from models.model_a.unet.unet_model import UNet
 # from models.model_b.models.fusenet_model import FuseNet
 # from models.model_c.models.fcn32s import FCN32VGG
 # from models.model_d.train.erfnet import Net
@@ -21,16 +22,16 @@ from utils import (
     save_predictions_as_imgs,
 )
 
-# Hyperparameters etc.
-LEARNING_RATE = 1e-4
+# Hyperparametthoners etc.
+LEARNING_RATE = 1e-2
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-BATCH_SIZE = 16
-NUM_EPOCHS = 20
+BATCH_SIZE = 32
+NUM_EPOCHS = 25
 NUM_WORKERS = 2
 IMAGE_HEIGHT = 160
 IMAGE_WIDTH = 240
 PIN_MEMORY = True
-LOAD_MODEL = False
+LOAD_MODEL = True
 TRAIN_IMG_DIR = "dataset/training/images"
 TRAIN_MASK_DIR = "dataset/training/labels"
 VAL_IMG_DIR = "dataset/validation/images"
@@ -49,7 +50,8 @@ def train_fn(loader, model, optimizer, loss_fn, scaler, curr_epoch):
         #forward
         with torch.cuda.amp.autocast():
             prediction = model(data)
-            loss = loss_fn(prediction, targets)
+            # loss = loss_fn(prediction, targets)
+            loss = loss_fn(prediction['out'], targets)
         
         running_loss += loss.item()
 
@@ -73,12 +75,15 @@ def main():
     train_transform = A.Compose(
         [
             A.Resize(height=IMAGE_HEIGHT, width=IMAGE_WIDTH),
-            A.Rotate(limit=35, p=1.0),
+            A.Rotate(limit=35, p=0.7),
             A.HorizontalFlip(p=0.5),
+            A.ColorJitter(brightness=0.4, contrast=0.6, saturation=0, hue=0.5, p=0.4),
             # A.VerticalFlip(p=0.1),
             A.Normalize(
-                mean=[0.0, 0.0, 0.0],
-                std=[1.0, 1.0, 1.0],
+                # mean=[0.0, 0.0, 0.0],
+                mean=[0.485, 0.456, 0.406],
+                # std=[1.0, 1.0, 1.0],
+                std=[0.229, 0.224, 0.225],
                 max_pixel_value=255.0,
             ),
             ToTensorV2(),
@@ -98,15 +103,19 @@ def main():
     )
 
     # CHANGE LINE BELOW FOR NEW MODELS
-    model = UNet(n_channels=3, n_classes=66).to(DEVICE)
-    # model = FuseNet(num_labels=66, use_class=False)
-    # model = FCN32VGG(num_classes=66)
-    # model = Net(num_classes=66)
-    # model = GSCNN(num_classes=66)
+    # model = UNet(n_channels=3, n_classes=66).to(DEVICE)
+    # model = FuseNet(num_labels=66, use_class=False).to(DEVICE)
+    # model = FCN32VGG(num_classes=66).to(DEVICE)
+    # model = Net(num_classes=66).to(DEVICE)
+    # model = GSCNN(num_classes=66).to(DEVICE)
+    # model = fcn_resnet50(pretrained=False, progress=False, num_classes=66).to(DEVICE)
+    model = deeplabv3_resnet101(pretrained=False, progress=False, num_classes=66).to(DEVICE)
+    # model = lraspp_mobilenet_v3_large(pretrained=False, progress=False, num_classes=66).to(DEVICE)
     
     # loss_fn = nn.BCEWithLogitsLoss()
     loss_fn = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
+    learning_rate_scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.1)
 
     train_loader, val_loader = get_loaders(
         TRAIN_IMG_DIR,
@@ -138,6 +147,9 @@ def main():
 
         # check accuracy
         check_metircs(val_loader, model, loss_fn, epoch, device=DEVICE)
+
+        # Step LR
+        learning_rate_scheduler.step()
 
         # print some examples to a folder
         save_predictions_as_imgs(

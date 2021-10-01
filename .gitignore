@@ -6,4 +6,5 @@ local_req.txt
 venv
 runs
 test_images
-
+logs
+my_checkpoint_unet.pth.tar
