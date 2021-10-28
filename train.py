@@ -1,6 +1,8 @@
 import torch
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
+from torchvision.models.segmentation.deeplabv3 import DeepLabHead
+from torchvision.models.segmentation.fcn import FCNHead
 from tqdm import tqdm
 import torch.nn as nn
 import torch.optim as optim
@@ -25,13 +27,13 @@ from utils import (
 # Hyperparametthoners etc.
 LEARNING_RATE = 1e-2
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-BATCH_SIZE = 32
-NUM_EPOCHS = 25
+BATCH_SIZE = 8
+NUM_EPOCHS = 2
 NUM_WORKERS = 2
 IMAGE_HEIGHT = 160
 IMAGE_WIDTH = 240
 PIN_MEMORY = True
-LOAD_MODEL = True
+LOAD_MODEL = False
 TRAIN_IMG_DIR = "dataset/training/images"
 TRAIN_MASK_DIR = "dataset/training/labels"
 VAL_IMG_DIR = "dataset/validation/images"
@@ -41,6 +43,7 @@ TEST_IMG_DIR = "dataset/testing/images"
 writer = SummaryWriter()
 
 def train_fn(loader, model, optimizer, loss_fn, scaler, curr_epoch):
+    model.to(device=DEVICE)
     loop = tqdm(loader)
     running_loss = 0.0
     for batch_idx, (data, targets) in enumerate(loop):
@@ -103,13 +106,14 @@ def main():
     )
 
     # CHANGE LINE BELOW FOR NEW MODELS
-    # model = UNet(n_channels=3, n_classes=66).to(DEVICE)
-    # model = FuseNet(num_labels=66, use_class=False).to(DEVICE)
-    # model = FCN32VGG(num_classes=66).to(DEVICE)
-    # model = Net(num_classes=66).to(DEVICE)
-    # model = GSCNN(num_classes=66).to(DEVICE)
-    # model = fcn_resnet50(pretrained=False, progress=False, num_classes=66).to(DEVICE)
-    model = deeplabv3_resnet101(pretrained=False, progress=False, num_classes=66).to(DEVICE)
+    # model = UNet(n_channels=3, n_classes=66)
+
+    # model = fcn_resnet50(pretrained=True, progress=True)
+    # model.classifier = FCNHead(2048, 66)
+    
+    model = deeplabv3_resnet101(pretrained=True, progress=True)
+    model.classifier = DeepLabHead(2048, 66)
+    
     # model = lraspp_mobilenet_v3_large(pretrained=False, progress=False, num_classes=66).to(DEVICE)
     
     # loss_fn = nn.BCEWithLogitsLoss()

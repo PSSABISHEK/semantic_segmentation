@@ -12,7 +12,7 @@ from utils import (
 
 # MODELS
 from models.model_a.unet.unet_model import UNet
-# from torchvision.models.segmentation import fcn_resnet50
+# from torchvision.models.segmentation import fcn_resnet101
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 BATCH_SIZE = 16
@@ -40,7 +40,7 @@ def main():
             ],
         )
 
-    def get_test_loader(test_dir, test_transform, batch_size, num_workers=4, pin_memory=True):
+    def get_test_loader(test_dir, test_transform, batch_size, num_workers=2, pin_memory=True):
         
         test_ds = TestMapillaryDataset(
             img_dir=test_dir,

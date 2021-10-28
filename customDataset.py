@@ -19,9 +19,9 @@ class MapillaryDataset(Dataset):
 
     def __len__(self):
         # USE TO TEST YOU MODEL FOR INITAL RUN
-        # return 32
+        return 50
         # USE FOR PROPER TRAINING
-        return len(self.images)
+        # return len(self.images)
 
     def __getitem__(self, index):
         img_path = os.path.join(self.img_dir, self.images[index])
